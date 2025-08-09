@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tic Tac Toe</title>
+  <style>
+    body { font-family: Arial; text-align: center; }
+    table { margin: auto; border-collapse: collapse; }
+    td {
+      width: 60px; height: 60px;
+      text-align: center; font-size: 30px;
+      border: 2px solid black; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Tic Tac Toe</h1>
+<table>
+  <tr>
+    <td onclick="makeMove(this)"></td>
+    <td onclick="makeMove(this)"></td>
+    <td onclick="makeMove(this)"></td>
+  </tr>
+  <tr>
+    <td onclick="makeMove(this)"></td>
+    <td onclick="makeMove(this)"></td>
+    <td onclick="makeMove(this)"></td>
+  </tr>
+  <tr>
+    <td onclick="makeMove(this)"></td>
+    <td onclick="makeMove(this)"></td>
+    <td onclick="makeMove(this)"></td>
+  </tr>
+</table>
+
+<p id="status">Player X's turn</p>
+
+<script>
+  let currentPlayer = 'X';
+
+  function makeMove(cell) {
+    if (cell.textContent === '') {
+      cell.textContent = currentPlayer;
+      if (checkWin()) {
+        document.getElementById('status').textContent = "Player " + currentPlayer + " wins!";
+        disableBoard();
+      } else {
+        currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
+        document.getElementById('status').textContent = "Player " + currentPlayer + "'s turn";
+      }
+    }
+  }
+
+  function checkWin() {
+    const cells = document.querySelectorAll('td');
+    const combos = [
+      [0,1,2],[3,4,5],[6,7,8], // rows
+      [0,3,6],[1,4,7],[2,5,8], // cols
+      [0,4,8],[2,4,6]          // diagonals
+    ];
+    return combos.some(combo =>
+      cells[combo[0]].textContent &&
+      cells[combo[0]].textContent === cells[combo[1]].textContent &&
+      cells[combo[1]].textContent === cells[combo[2]].textContent
+    );
+  }
+
+  function disableBoard() {
+    document.querySelectorAll('td').forEach(cell => cell.onclick = null);
+  }
+</script>
+
+</body>
+</html>
